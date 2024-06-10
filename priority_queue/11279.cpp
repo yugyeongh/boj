@@ -15,6 +15,9 @@
  * 1. x는 자연수
  * 2. x < 2^31
  *
+ * *** Solution ***
+ * 1. using pq, compared elements with less<int>
+ *
  */
 
 #include <iostream>
