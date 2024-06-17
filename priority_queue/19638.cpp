@@ -23,6 +23,14 @@
  * *** submit1 - 바로 틀렸습니다 나옴 ***
  * 1. 테케는 다 통과인데 왜 틀릴까
  * 2. 진정한 맞왜틀
+ * 3. 틀린 이유가 뭘까🤔
+ *    - cnt: 실제로 뿅망치 맞은 횟수
+ *    - 주어진 뿅망치 횟수보다 cnt이 작을 때만 조건문 돌기
+ *    - 키가 1일 때, 센티보다 작을 때는 반복문 나와서 우선순위 큐에 넣기
+ *    - 센티보다 클 때는 뿅망치 맞고, 실제로 뿅망치 맞은 횟수(cnt) 증가
+ *    - 이렇게 계산 먼저 하고 우선순위 큐에 넣었는데...
+ *
+ * 하 이따 다시 해야지
  */
 
 #include <iostream>
@@ -43,24 +51,13 @@ int main() {
     for (int i=0;i<N;i++) {
         int H;
         cin >> H;
-//        while (cnt<T) {
-//            if (H==1) break;
-//            if (H < Hcenti) break;
-//            if (H >= Hcenti) H = H/2; cnt++;
-//        }
+        while (cnt<T) {
+            if (H==1) break;
+            if (H < Hcenti) break;
+            if (H >= Hcenti) H = H/2; cnt++;
+        }
         pq.push(H);
     }
-
-    for (int i=0;i<T;i++) {
-        int h = pq.top();
-
-        while (cnt<T) {
-            if (h==1) break;
-            if (h < Hcenti) break;
-            if (h >= Hcenti) h = h/2; cnt++;
-        }
-    }
-
 
     for (int i=0;i<N;i++){
         if (Hcenti <= pq.top()){
@@ -72,10 +69,11 @@ int main() {
         }
     }
 
-    if (pq.empty()) {
+    if (pq.empty()){
         cout << "YES" << '\n';
         cout << cnt;
         return 0;
     }
 
+    return 0;
 }
