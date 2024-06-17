@@ -29,8 +29,6 @@
  *    - 키가 1일 때, 센티보다 작을 때는 반복문 나와서 우선순위 큐에 넣기
  *    - 센티보다 클 때는 뿅망치 맞고, 실제로 뿅망치 맞은 횟수(cnt) 증가
  *    - 이렇게 계산 먼저 하고 우선순위 큐에 넣었는데...
- *
- * 하 이따 다시 해야지
  */
 
 #include <iostream>
@@ -51,12 +49,22 @@ int main() {
     for (int i=0;i<N;i++) {
         int H;
         cin >> H;
-        while (cnt<T) {
-            if (H==1) break;
-            if (H < Hcenti) break;
-            if (H >= Hcenti) H = H/2; cnt++;
-        }
+        // 우선순위큐로 우선순위 처리를 하고 뿅망치를 해야함
         pq.push(H);
+    }
+
+    for (int i=0;i<N;i++) {
+        while (cnt<T) {
+            if (pq.top()==1) break;
+            if (pq.top() < Hcenti) break;
+            if (pq.top() >= Hcenti) {
+                int temp = pq.top();
+                temp = temp / 2;
+                pq.pop();
+                pq.push(temp);
+                cnt++;
+            }
+        }
     }
 
     for (int i=0;i<N;i++){
@@ -75,5 +83,4 @@ int main() {
         return 0;
     }
 
-    return 0;
 }
