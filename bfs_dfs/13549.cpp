@@ -13,16 +13,17 @@
  * 1. 0 ≤ N, K ≤ 100,000
  *
  * *** Solution ***
- * 1. 흠
+ * 1. 오 pq를 사용한다니
  *
  */
 
 #include <iostream>
+#include <algorithm>
 #include <queue>
 using namespace std;
 
 bool v[100001] = {false,};
-queue <int> q;
+priority_queue<pair<int,int>,vector<pair<int,int> >,greater<pair<int,int>>>pq;
 
 int main() {
     ios::sync_with_stdio(false);
@@ -30,43 +31,28 @@ int main() {
 
     int N, K;
     cin >> N >> K;
-    q.push(N);
 
-    int seg=1, cnt, ans=0;
-    while (!q.empty()) {
-        bool flag=false;
-        cnt=0;
+    pq.push({0,N});
 
-        for (int i=0;i<seg;i++){
-            int x = q.front();
-            q.pop();
+    while (!pq.empty()) {
+        int time = pq.top().first;
+        int x = pq.top().second;
+        pq.pop();
 
-            if (x==K) {
-                cout << ans << '\n';
-                return 0;
-            }
-            v[x] = true;
+        v[x] = true;
 
-            if (x-1>=0 && !v[x-1]) {
-                q.push(x-1);
-                cnt++;
-                flag = true;
-            }
-
-            if (x+1<=100000 && !v[x+1]) {
-                q.push(x+1);
-                cnt++;
-                flag = true;
-            }
-
-            if (2*x<=100000 && !v[2*x]) {
-                q.push(2*x);
-                cnt++;
-            }
+        if (x==K) {
+            cout << time << '\n';
+            break;
         }
-        seg = cnt;
-        if (flag) ans++;
+
+        if(x-1>=0 && !v[x-1])
+            pq.push(make_pair(time+1,x-1));
+        if(x+1<=100000 && !v[x+1])
+            pq.push(make_pair(time+1,x+1));
+        if(x*2<=100000 && !v[x*2])
+            pq.push(make_pair(time,x*2));
     }
-    cout << ans << '\n';
+
     return 0;
 }
