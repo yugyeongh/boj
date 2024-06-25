@@ -19,6 +19,15 @@ queue <pair<int,int>> q;
 int map[51][51];
 bool visited[51][51];
 
+void reset(int M, int N){
+    for (int j=0;j<N;j++){
+        for (int i=0;i<M;i++){
+            map[j][i]=0;
+            visited[j][i]=false;
+        }
+    }
+}
+
 void bfs(int j, int i){
     q.push({j,i});
     visited[j][i]=true;
@@ -48,13 +57,12 @@ int main() {
 
     cin >> T;
     while (T--){
-        map[51][51]={0,};
-        visited[51][51] = {false,};
         cin >> M >> N >> K;
+        reset(M,N);
 
         for (int i=0;i<K;i++){
             cin >> a >> b;
-            map[b][a]=1;
+            map[a][b]=1;
         }
 
         int result=0;
