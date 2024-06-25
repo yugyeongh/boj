@@ -19,26 +19,26 @@ queue <pair<int,int>> q;
 int map[51][51];
 bool visited[51][51];
 
-void bfs(int x, int y){
-    q.push({x,y});
+void bfs(int j, int i){
+    q.push({j,i});
+    visited[j][i]=true;
 
     while (!q.empty()) {
-        x = q.front().first;
-        y = q.front().second;
+        int y = q.front().first;
+        int x = q.front().second;
         q.pop();
 
         for (int i=0;i<4;i++){
-            int nx = x + dx[i];
             int ny = y + dy[i];
+            int nx = x + dx[i];
 
-            if (nx<0 || nx>=M || ny<0 || ny>=N) continue;
+            if (nx<0 || nx>=N || ny<0 || ny>=M) continue;
 
-            if (map[nx][ny]==1 && !visited[nx][ny]){
-                visited[nx][ny]=true;
-                q.push({nx, ny});
+            if (map[ny][nx]==1 && !visited[ny][nx]){
+                visited[ny][nx]=true;
+                q.push({ny, nx});
             }
         }
-
     }
 }
 
@@ -54,14 +54,14 @@ int main() {
 
         for (int i=0;i<K;i++){
             cin >> a >> b;
-            map[a][b]=1;
+            map[b][a]=1;
         }
 
         int result=0;
-        for (int i=0;i<M;i++){
-            for (int j=0;j<N;j++){
-                if (map[i][j]==1 && visited[i][j]==false) {
-                    bfs(i,j);
+        for (int i=0;i<N;i++){
+            for (int j=0;j<M;j++){
+                if (map[j][i]==1 && !visited[j][i]) {
+                    bfs(j,i);
                     result++;
                 }
             }
