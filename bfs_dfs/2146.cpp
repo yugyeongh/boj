@@ -3,6 +3,8 @@
  * 1. 가장 짧은 다리 -> bfs로 풀자
  * 2. 0은 바다, 1은 육지
  * 3. 가장 짧은 다리는 3임 2나 1은 안 됨
+ * 4. pq로 오름차순 정리해서 가장 짧은 다리 길이 구하려고 했는데 이전까지 만들어진 다리 길이에 1더하는거라 pq로 찾기 어려워서 자료구조를 배열로 사용해봄
+ * 5. 상하좌우를 비교해서 가장 큰 값에 1을 더해 bridge[nx][ny]를 만들어야 함
  */
 
 #include <iostream>
@@ -17,29 +19,31 @@ int dx[4]={1,-1,0,0};
 int dy[4]={0,0,1,-1};
 
 queue<pair<int,int>> q;
-priority_queue<pair<int,pair<int,int>>, vector<pair<int,pair<int,int>>>, greater<pair<int,pair<int,int>>>> pq;
+int bridge[101][101]={0,};
 
 void bfs(int x,int y) {
     q.push({x,y});
+    int max = 0;
 
     while (!q.empty()){
-        int cnt=0;
         int a = q.front().first;
         int b = q.front().second;
         q.pop();
 
+
         for (int i=0;i<4;i++){
-            for (int j=0;j<4;j++){
-                int nx = a + dx[i];
-                int ny = b + dy[i];
+            int nx = a + dx[i];
+            int ny = b + dy[i];
 
-                if (nx<0 || nx>=N || ny<0 || ny>=N) continue;
+            if (nx<0 || nx>=N || ny<0 || ny>=N) continue;
 
-                if (map[nx][ny]==0 && visited[nx][ny]==false){
-                    pq.push({++cnt,{nx,ny}});
-                    visited[nx][ny]=true;
-                }
+            if (bridge[nx][ny]>max) max = bridge[nx][ny];
+
+            if (map[nx][ny]==0 && visited[x][y]==false){
+                bridge[x][y]=max+1;
+                visited[x][y]=true;
             }
+
         }
     }
 }
@@ -61,12 +65,12 @@ int main() {
         }
     }
 
-    for (int i=0;i<pq.size();i++){
-        cout << pq.top().first << '\n';
-        pq.pop();
+    for (int i=0;i<N;i++){
+        for (int j=0;j<N;j++){
+            cout << bridge[i][j] << " ";
+        }
+        cout << '\n';
     }
-
-    cout << pq.top().first << '\n';
 
     return 0;
 }
