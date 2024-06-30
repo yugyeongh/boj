@@ -9,21 +9,14 @@ queue <int> q;
 bool visited[1001]={false,};
 int cnt=0;
 
-void bfs(int a){
-   q.push(a);
-   visited[a]=true;
+void dfs(int a){
+    visited[a]=true;
 
-   while (!q.empty()){
-       int x = q.front();
-       q.pop();
-
-       for (int i=0;i<map[x].size();i++){
-           if (!visited[map[x][i]]){
-               q.push(map[x][i]);
-               visited[map[x][i]]=true;
-           }
-       }
-   }
+    for (int i=0;i<map[a].size();i++){
+        if (!visited[map[a][i]]){
+            dfs(map[a][i]);
+        }
+    }
 }
 
 int main() {
@@ -33,12 +26,12 @@ int main() {
     cin >> N >> M;
     for (int i=0;i<M;i++){
         cin >> u >> v;
-        map[u].push_back(v); map[v].push_back(u);
+        map[u].push_back(v); map[v].push_back(u); // 방향 없는 그래프니까,, 양방향이잖아..ㅠ
     }
 
     for (int i=1;i<=N;i++){
         if (!visited[i]){
-            bfs(i);
+            dfs(i);
             cnt++;
         }
 
