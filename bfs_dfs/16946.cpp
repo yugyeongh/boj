@@ -1,3 +1,5 @@
+// 0그룹 번호 매겨서 풀기
+
 #include <iostream>
 #include <queue>
 #include <vector>
