@@ -4,6 +4,7 @@
  * 2. 오름차순 정렬해서 작은 순대로 자르는게 좋을듯
  * 3. 숫자, 숫자 위치 기준으로 정렬하자
  * 4. 마지막 테케 출력이 다르네
+ * 5. deque 사용하기
  */
 
 #include <iostream>
@@ -13,7 +14,7 @@
 using namespace std;
 
 int N,K;
-string num;
+char num[500001];
 vector <pair<int,int>> v;
 priority_queue <int, vector<int>, greater<int>> pq;
 
@@ -24,23 +25,18 @@ int main() {
     cin >> N >> K;
     cin >> num;
 
-    for (int i=0;i<num.size();i++){
-        v.push_back({num[i], i});
+    deque <int> dq;
+    for (int i=0;i<N;i++){
+        while (K>0 && !dq.empty() && dq.back()<num[i]){
+            dq.pop_back();
+            K--;
+        }
+        dq.push_back(num[i]);
     }
 
-    sort(v.begin(), v.end());
-
-    for (int i=K;i<v.size();i++){
-        int j = v[i].second;
-        pq.push(j);
+    for (int i=0;i<dq.size()-K;i++){
+        cout << (char)dq[i];
     }
-
-    while (!pq.empty()){
-        int t = pq.top();
-        pq.pop();
-        cout << num[t];
-    }
-
 
     return 0;
 }
