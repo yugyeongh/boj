@@ -1,37 +1,36 @@
 #include <iostream>
-#include <vector>
+#include <queue>
 using namespace std;
 
-int N;
+int N, temp;
 
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(NULL);
 
     cin >> N;
-    vector <int> v(N);
+    priority_queue <pair<int,int>, vector<pair<int,int>>, less<pair<int,int>>> pq;
 
     for (int i=0;i<N;i++){
-        cin >> v[i];
+        cin >> temp;
+        pq.push({i,temp});
     }
 
-    int size = v.size()-1;
-    for (int i=0;i<N;i++){
-        int flag = false;
-        int cur = v[i];
-
-        for (int j=i;j<N;j++){
-            if (cur < v[j+1]){
-                cout << v[j+1] << " ";
-                flag = true;
-                break;
-            }
-        }
-
-        if (i == size || !flag){
+    int idx = pq.top().first;
+    int a = pq.top().second;
+    pq.pop();
+    while (!pq.empty()){
+        if (a < pq.top().second){
+            cout << pq.top().second << " ";
+            a = pq.top().second;
+            break;
+        } else {
             cout << "-1 ";
         }
     }
+
+
+
     cout << '\n';
 
     return 0;
