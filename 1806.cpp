@@ -1,43 +1,42 @@
 /*
- * 입력: 수열의 길이 N, 부분합 S, 수열
- * 출력: S의 최소 길이 (불가능하다면 0 출력)
- *
- * 풀이1
- * 1. 어떤 자료구조를 이용할까? - 벡터 (bc, 부분합의 시작 인덱스를 기억하고 불가능하면 바로 현재부터 다시 인덱스를 기억하면 됨)
- * 2. v[i] 자체를 넣지 않고 v[i]=v[i]+v[i-1]을 저장할까? 5 6 9 14 24 31 35 44 46 54
- * 3. v[start]-v[end]가 (1) <S면 end++, (2) > S면 start++, (3) 같으면 result 업데이트하고 start++
- *
- * 풀이2 - 71프로에서 틀...
- * 1. 숫자 있는 그대로 배열에 저장하기
- * 2. sum >= S면 가장 짧은 길이 저장&&sum-=arr[start]&&start++, end==N면 break, 그 외면 sum+=arr[end]&&end++
+ * 입력: 수열의 길이 N, 부분합 S \n 수열
+ * 출력: 부분합의 최소 길이
+ * 풀이: 투포인터
  */
-
 
 #include <iostream>
 #include <algorithm>
+#define MAX 987654321
 using namespace std;
 
-int arr[100010];
+int N, S;
 
 int main() {
-    int N, S;
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
     cin >> N >> S;
+    int arr[N];
 
-    int l = 0, sum = 0;
-    int answer = 100001;
-    for(int r=0; r<N; ++r) {
-        cin >> arr[r];
-        sum += arr[r];
 
-        while(sum >= S && l < N) {
-            answer = min(answer, (r - l) + 1);
-            sum -= arr[l];
-            l++;
+    for (int i=0;i<N;i++){
+        cin >> arr[i];
+    }
+
+    int s=0, e=0, sum=0, result=MAX;
+    while (s <= e){
+        if (sum >= S){
+            if (sum == S) result = min(result, e-s);
+            s++;
+            sum -= arr[s];
+        } else if (sum < S){
+            e++;
+            sum += arr[e];
         }
     }
 
-    if(answer == 100001) cout << 0;
-    else cout << answer;
+    if (result==MAX) cout << 0 << '\n';
+    else cout << result << '\n';
 
     return 0;
 }
