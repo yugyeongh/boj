@@ -17,32 +17,27 @@
 #include <algorithm>
 using namespace std;
 
+int arr[100010];
 
 int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(NULL);
-
     int N, S;
     cin >> N >> S;
 
-    int arr[N];
-    for (int i=0;i<N;i++){
-        cin >> arr[i];
-    }
+    int l = 0, sum = 0;
+    int answer = 100001;
+    for(int r=0; r<N; ++r) {
+        cin >> arr[r];
+        sum += arr[r];
 
-    int start=0, end=0, sum=0, result=0x7FFFFFF;
-    while (start <= end){
-        if (end == N) break;
-        else if (sum >= S){
-            result = min(result, end - start);
-            sum -= arr[start++];
-        } else {
-            sum += arr[end++];
+        while(sum >= S && l < N) {
+            answer = min(answer, (r - l) + 1);
+            sum -= arr[l];
+            l++;
         }
     }
 
-    if (result == 0x7FFFFFF) cout << 0 << '\n';
-    else cout << result << '\n';
+    if(answer == 100001) cout << 0;
+    else cout << answer;
 
     return 0;
 }
