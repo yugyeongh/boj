@@ -5,18 +5,36 @@
  * 입력: 격자판 행 N, 열 M, 공격 거리 제한 D \n 격자판의 상태 0 or 1
  * 출력: 궁수의 공격으로 제거할 수 있는 적의 최대 수
  * 제한: 3 ≤ N, M ≤ 15, 1 ≤ D ≤ 10
+ *
+ * 해석
+ * - M명의 궁수의 공격 거리는 D로 동일하므로 궁수의 배치는 '순서가 상관없는 조합'
+ * - 므야
+ *
+ * 알고리즘: bfs로 궁수의 공격 횟수 세기
  */
 
 #include <iostream>
+#include <vector>
 using namespace std;
 
 int N,M,D;
+vector <vector<int>> v;
 
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(NULL);
 
     cin >> N >> M >> D;
+
+    int temp;
+    for (int i=0;i<N;i++){
+        for (int j=0;j<M;j++){
+            cin >> temp;
+            v[i].push_back(temp);
+        }
+    }
+
+
 
     return 0;
 }
