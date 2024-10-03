@@ -1,5 +1,5 @@
 // 시간초과
-// 40분
+// 소요 시간: 40분
 //
 // 입력
 // - 첫째줄: 전체 용액의 수 N (3<=N<=5000)
@@ -20,6 +20,7 @@
 using namespace std;
 
 int N;
+int zero=INF;
 vector <int> v;
 vector <int> answer;
 
@@ -36,7 +37,7 @@ int main() {
 
     sort(v.begin(), v.end());
 
-    int zero=INF;
+
     for (int i=0;i<N;i++){
         for (int j=i+1;j<N;j++){
             for (int k=j+1;k<N;k++){
